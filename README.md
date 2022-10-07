@@ -3,7 +3,13 @@ Get high performance http requests with fork process
 
 ## OHA benchmark forker
 
+forker tested 500 concurrent with 200k http requests
+
 ![alt text](assets/forker.png "forker")
+
+```shell
+oha -c 500 -n 200000 --latency-correction --disable-keepalive http://localhost:8080
+```
 
 ```shell
 Summary:
