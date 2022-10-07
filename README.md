@@ -1,7 +1,17 @@
 # forker
 [![Go Reference](https://pkg.go.dev/badge/github.com/Ja7ad/forker.svg)](https://pkg.go.dev/github.com/Ja7ad/forker)
 
-Get high performance http requests with fork process
+Get high performance http requests with fork process (forker inspired prefork feature in web servers)
+
+prefork is a solution which is also used by other webservers
+
+A server instance is opened for each processor core and incoming requests are shared between these instances
+
+In order to distribute the load more evenly and handle more requests per second, there is a master that starts by the user, which then starts child processes on the other processor cores based on configuration
+
+memory between the different processes is not shared, beacuse  goroutines are independent processes
+
+![alt text](assets/diagram.jpg "diagram")
 
 ## OHA benchmark forker
 
