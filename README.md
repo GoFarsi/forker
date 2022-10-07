@@ -1,4 +1,6 @@
 # forker
+[![Go Reference](https://pkg.go.dev/badge/github.com/Ja7ad/forker.svg)](https://pkg.go.dev/github.com/Ja7ad/forker)
+
 Get high performance http requests with fork process
 
 ## OHA benchmark forker
@@ -52,7 +54,7 @@ Details (average, fastest, slowest):
 
 ```
 
-# Example
+## Example
 
 ```go
 package main
