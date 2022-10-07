@@ -1,5 +1,5 @@
 # forker
-Get high performance process requests with Go http process forker
+Get high performance http requests with fork process
 
 ## OHA benchmark forker
 
