@@ -2,6 +2,7 @@ package forker
 
 import (
 	"flag"
+	"github.com/labstack/echo/v4"
 	"github.com/valyala/fasthttp/reuseport"
 	"net"
 	"net/http"
@@ -17,19 +18,9 @@ const (
 	_defaultNetwork = TCP4
 )
 
-type Forker interface {
-	ListenAndServe(address string) error
-	ListenAndServeTLS(address, certFile, keyFile string) error
-	NumOfChild() int
-	ChildPids() []int
-
-	forker(address string) (err error)
-	listen(address string) (net.Listener, error)
-	setTCPListenerFiles(address string) error
-	doCmd() (*exec.Cmd, error)
-}
-
 type Fork struct {
+	echo *echo.Echo
+
 	Network   Network // Network is net type tcp4, tcp, tcp6, udp, udp4, udp6
 	ReusePort bool    // ReusePort use for windows support child process base on system call
 
@@ -69,6 +60,42 @@ func New(httpServer *http.Server, opts ...Option) Forker {
 	}
 
 	return forker
+}
+
+// NewEchoForker create echo forker object
+func NewEchoForker(opts ...Option) EchoForker {
+	forker := &Fork{
+		echo:         echo.New(),
+		recoverChild: runtime.GOMAXPROCS(0) / 2,
+	}
+
+	for _, opt := range opts {
+		opt(forker)
+	}
+
+	if forker.Network == 0 {
+		forker.Network = _defaultNetwork
+	}
+
+	return forker
+}
+
+// Start listener echo
+func (f *Fork) Start(address string) error {
+	if isChild() {
+		ln, err := f.listen(address)
+		if err != nil {
+			return err
+		}
+		f.echo.Listener = ln
+		f.ln = ln
+		return f.echo.Start(address)
+	}
+	return f.forker(address)
+}
+
+func (f *Fork) GetEcho() *echo.Echo {
+	return f.echo
 }
 
 // ListenAndServe listen and serve http server
@@ -179,10 +206,6 @@ func (f *Fork) forker(address string) (err error) {
 func (f *Fork) listen(address string) (net.Listener, error) {
 	runtime.GOMAXPROCS(1)
 
-	if f.Network == 0 {
-		f.Network = _defaultNetwork
-	}
-
 	if f.ReusePort {
 		return reuseport.Listen(f.Network.String(), address)
 	}
@@ -191,9 +214,6 @@ func (f *Fork) listen(address string) (net.Listener, error) {
 }
 
 func (f *Fork) setTCPListenerFiles(address string) error {
-	if f.Network == 0 {
-		f.Network = _defaultNetwork
-	}
 
 	tcpAddr, err := net.ResolveTCPAddr(f.Network.String(), address)
 	if err != nil {
