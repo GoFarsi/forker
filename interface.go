@@ -21,4 +21,6 @@ type Forker interface {
 type EchoForker interface {
 	Start(address string) error
 	GetEcho() *echo.Echo
+	NumOfChild() int
+	ChildPids() []int
 }
