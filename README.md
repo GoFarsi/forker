@@ -13,7 +13,13 @@ memory between the different processes is not shared, beacuse  goroutines are in
 
 ![alt text](assets/diagram.jpg "diagram")
 
-## OHA benchmark forker
+# how to install
+
+```shell
+go get -u github.com/Ja7ad/forker
+```
+
+## forker benchmark
 
 forker tested 500 concurrent with 200k http requests
 
