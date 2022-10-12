@@ -21,9 +21,6 @@ const (
 type Fork struct {
 	echo *echo.Echo
 
-	Network   Network // Network is net type tcp4, tcp, tcp6, udp, udp4, udp6
-	ReusePort bool    // ReusePort use for windows support child process base on system call
-
 	serveFunc    func(ln net.Listener) error
 	serveTLSFunc func(ln net.Listener, certFile, keyFile string) error
 
@@ -32,6 +29,9 @@ type Fork struct {
 	files        []*os.File
 
 	childsPid []int
+
+	Network   Network // Network is net type tcp4, tcp, tcp6, udp, udp4, udp6
+	ReusePort bool    // ReusePort use for windows support child process base on system call
 }
 
 type processSignal struct {
@@ -80,8 +80,8 @@ func NewEchoForker(opts ...Option) EchoForker {
 	return forker
 }
 
-// Start listener echo
-func (f *Fork) Start(address string) error {
+// StartEcho listener echo
+func (f *Fork) StartEcho(address string) error {
 	if isChild() {
 		ln, err := f.listen(address)
 		if err != nil {

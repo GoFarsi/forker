@@ -11,7 +11,7 @@ func main() {
 
 	e.GET("/", Greeting)
 
-	e.Logger.Fatal(f.Start(":8080"))
+	e.Logger.Fatal(f.StartEcho(":8080"))
 }
 
 func Greeting(c echo.Context) error {
