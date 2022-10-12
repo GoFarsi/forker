@@ -29,11 +29,11 @@ Response time histogram:
   142.499 [59]    |
 
 Latency distribution:
-  10 % in 6.91 ms 
-  25 % in 12.65 ms 
-  50 % in 19.31 ms 
-  75 % in 27.64 ms 
-  90 % in 36.87 ms 
-  95 % in 42.87 ms 
-  99 % in 59.01 ms 
+  10 % in 6.91 ms
+  25 % in 12.65 ms
+  50 % in 19.31 ms
+  75 % in 27.64 ms
+  90 % in 36.87 ms
+  95 % in 42.87 ms
+  99 % in 59.01 ms
 ```

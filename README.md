@@ -1,4 +1,5 @@
 # forker
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/Ja7ad/forker.svg)](https://pkg.go.dev/github.com/Ja7ad/forker)
 
 Get high performance http requests with fork process (forker inspired prefork feature in web servers)
@@ -9,7 +10,7 @@ A server instance is opened for each processor core and incoming requests are sh
 
 In order to distribute the load more evenly and handle more requests per second, there is a master that starts by the user, which then starts child processes on the other processor cores based on configuration
 
-memory between the different processes is not shared, beacuse  goroutines are independent processes
+memory between the different processes is not shared, beacuse goroutines are independent processes
 
 ![alt text](assets/diagram.jpg "diagram")
 
